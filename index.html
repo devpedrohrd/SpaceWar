@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#0B0C10">
+  <title>Defensor Espacial</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <main class="game-shell">
+    <section id="start-screen" class="screen active" aria-labelledby="game-title">
+      <div class="start-layout">
+        <div class="hero-panel">
+          <p class="eyebrow">MISSÃO ARCADE // 01</p>
+          <h1 id="game-title"><span>DEFENSOR</span> ESPACIAL</h1>
+          <p class="subtitle">Proteja a base contra a chuva de meteoros.</p>
+
+          <div class="instructions">
+            <div><span class="key">← →</span><small>Mover</small></div>
+            <div><span class="key">A D</span><small>Mover</small></div>
+            <div><span class="key">ESPAÇO</span><small>Atirar</small></div>
+          </div>
+
+          <p class="touch-tip">No celular: use os controles abaixo da tela do jogo.</p>
+          <button id="play-button" class="primary-button" type="button">JOGAR</button>
+        </div>
+
+        <aside class="ranking-card" aria-labelledby="start-ranking-title">
+          <div class="ranking-heading">
+            <h2 id="start-ranking-title">TOP 10</h2>
+            <button id="clear-ranking-start" class="text-button" type="button">Limpar</button>
+          </div>
+          <div id="start-ranking" class="ranking-list"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="game-screen" class="screen" aria-label="Área do jogo">
+      <header class="hud" aria-label="Painel de informações">
+        <div class="hud-item"><span>PONTOS</span><strong id="score-value">0</strong></div>
+        <div class="hud-item hud-center"><span>VIDAS</span><strong id="lives-value">♥ ♥ ♥</strong></div>
+        <div class="hud-item"><span>RECORDE</span><strong id="best-value">0</strong></div>
+      </header>
+
+      <div class="canvas-frame">
+        <canvas id="game-canvas" width="480" height="720" aria-label="Campo de batalha espacial"></canvas>
+      </div>
+
+      <div class="touch-controls" aria-label="Controles de toque">
+        <button class="touch-button" id="move-left" type="button" aria-label="Mover para esquerda">←</button>
+        <button class="touch-button fire-button" id="fire-button" type="button" aria-label="Atirar">●</button>
+        <button class="touch-button" id="move-right" type="button" aria-label="Mover para direita">→</button>
+      </div>
+    </section>
+
+    <section id="game-over-screen" class="screen" aria-labelledby="game-over-title">
+      <div class="game-over-layout">
+        <div class="game-over-card">
+          <p class="eyebrow">MISSÃO ENCERRADA</p>
+          <h2 id="game-over-title">GAME OVER</h2>
+          <p class="final-label">PONTUAÇÃO FINAL</p>
+          <strong id="final-score" class="final-score">0</strong>
+
+          <form id="score-form" class="score-form">
+            <label for="player-name">Seu nome ou apelido</label>
+            <div class="form-row">
+              <input id="player-name" name="player-name" type="text" maxlength="12" placeholder="Piloto" autocomplete="nickname">
+              <button id="save-score-button" class="secondary-button" type="submit">SALVAR</button>
+            </div>
+          </form>
+
+          <button id="play-again-button" class="primary-button" type="button">JOGAR NOVAMENTE</button>
+        </div>
+
+        <aside class="ranking-card game-over-ranking" aria-labelledby="game-ranking-title">
+          <div class="ranking-heading">
+            <h2 id="game-ranking-title">RANKING LOCAL</h2>
+            <button id="clear-ranking-game" class="text-button" type="button">Limpar</button>
+          </div>
+          <div id="game-ranking" class="ranking-list"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
