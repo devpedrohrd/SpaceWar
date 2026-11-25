@@ -27,6 +27,8 @@ O projeto possui três telas:
 - Ranking local com as 10 melhores pontuações.
 - Opção para limpar o ranking.
 - Layout responsivo para computador e celular.
+- Habilidades especiais: tiro triplo, tiro rápido, escudo, vida extra e bomba.
+- Meteoros podem deixar itens especiais caírem pela tela.
 
 ## Controles
 
@@ -37,6 +39,8 @@ O projeto possui três telas:
 | Movimentar para a esquerda | `←` ou `A` |
 | Movimentar para a direita | `→` ou `D` |
 | Atirar | `Espaço` |
+| Usar bomba espacial | `B` |
+| Gerar habilidade para teste | `P` |
 
 ### Celular
 
@@ -84,8 +88,19 @@ http://127.0.0.1:4173
 SpaceWar/
 ├── index.html
 ├── style.css
-├── script.js
-└── README.md
+├── README.md
+└── js/
+    ├── main.js
+    ├── config.js
+    ├── dom.js
+    ├── state.js
+    ├── ranking.js
+    ├── input.js
+    ├── entities.js
+    ├── powerups.js
+    ├── ui.js
+    ├── renderer.js
+    └── game.js
 ```
 
 ## Arquivos
@@ -106,7 +121,7 @@ Responsável por:
 - Controles touch.
 - Ajustes para telas menores e orientação horizontal.
 
-### `script.js`
+### `js/main.js`
 
 Contém toda a lógica do jogo:
 
@@ -118,6 +133,24 @@ Contém toda a lógica do jogo:
 - Pontuação e vidas.
 - Explosões com partículas.
 - Ranking com `localStorage`.
+
+### JavaScript modular
+
+O código JavaScript foi dividido por responsabilidade:
+
+- `main.js` inicia o jogo e registra os eventos principais.
+- `config.js` contém dimensões, teclas de armazenamento e ajustes.
+- `dom.js` centraliza referências aos elementos HTML.
+- `state.js` mantém o estado compartilhado da partida.
+- `ranking.js` controla pontuações e `localStorage`.
+- `input.js` controla teclado, mouse e celular.
+- `entities.js` gerencia disparos, meteoros, partículas e colisões.
+- `powerups.js` implementa todas as habilidades especiais.
+- `ui.js` atualiza telas, HUD e indicadores.
+- `renderer.js` desenha todos os elementos no Canvas.
+- `game.js` executa o loop e a atualização da partida.
+
+O navegador precisa executar o projeto por servidor HTTP para carregar corretamente os módulos ES.
 
 ## Como o loop do jogo funciona
 

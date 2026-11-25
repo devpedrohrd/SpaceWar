@@ -55,6 +55,13 @@
         <div class="hud-item"><span>RECORDE</span><strong id="best-value">0</strong></div>
       </header>
 
+      <div id="power-status" class="power-status" aria-live="polite">
+        <span id="triple-status">TRIPLO —</span>
+        <span id="rapid-status">RÁPIDO —</span>
+        <span id="shield-status">ESCUDO —</span>
+        <button id="bomb-button" class="bomb-status" type="button" aria-label="Usar bomba espacial">BOMBA × <strong id="bomb-count">0</strong></button>
+      </div>
+
       <div class="canvas-frame">
         <canvas id="game-canvas" width="480" height="720" aria-label="Campo de batalha espacial"></canvas>
       </div>
@@ -63,6 +70,7 @@
         <button class="touch-button" id="move-left" type="button" aria-label="Mover para esquerda">←</button>
         <button class="touch-button fire-button" id="fire-button" type="button" aria-label="Atirar">●</button>
         <button class="touch-button" id="move-right" type="button" aria-label="Mover para direita">→</button>
+        <button class="touch-button bomb-touch" id="bomb-touch-button" type="button" aria-label="Usar bomba espacial">B</button>
       </div>
     </section>
 
@@ -96,6 +104,6 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
