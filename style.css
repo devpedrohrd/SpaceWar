@@ -27,7 +27,7 @@ body {
   color: var(--white);
   background:
     radial-gradient(circle at 18% 18%, rgba(38, 83, 125, 0.24), transparent 24%),
-    radial-gradient(circle at 82% 78%, rgba(0, 240, 255, 0.08), transparent 25%),
+    radial-gradient(circle at 82% 78%, rgba(0,240,255,0.08), transparent 25%),
     var(--space);
   font-family: "Rajdhani", Arial, sans-serif;
 }
@@ -279,6 +279,69 @@ canvas { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; touch-a
 .game-over-card .primary-button { width: 100%; }
 .game-over-ranking { min-height: 390px; }
 
+.mouse-key { min-width: 78px; }
+
+.auto-fire-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  margin: 18px 0 4px;
+  padding: 8px 14px;
+  border: 1px solid var(--cyan-soft);
+  border-radius: 6px;
+  background: rgba(0, 240, 255, 0.04);
+  cursor: pointer;
+  text-align: left;
+}
+
+.auto-fire-option input {
+  position: absolute;
+  opacity: 0;
+}
+
+.toggle-track {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  background: #20242a;
+  transition: background .2s, box-shadow .2s;
+}
+
+.toggle-track span {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #9aa3a7;
+  transition: transform .2s, background .2s;
+}
+
+.auto-fire-option input:checked + .toggle-track {
+  background: rgba(0, 255, 136, 0.18);
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.12);
+}
+
+.auto-fire-option input:checked + .toggle-track span {
+  transform: translateX(22px);
+  background: var(--green);
+}
+
+.auto-fire-option input:focus-visible + .toggle-track {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+.auto-fire-option strong,
+.auto-fire-option small { display: block; }
+.auto-fire-option strong { color: var(--white); font-size: 15px; }
+.auto-fire-option small { margin-top: 2px; color: #98a2a5; }
+
 @media (max-width: 760px) {
   body { align-items: start; padding: 12px; }
   .game-shell { min-height: calc(100vh - 24px); }
@@ -317,4 +380,8 @@ canvas { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; touch-a
 @media (prefers-reduced-motion: reduce) {
   .stars { animation: none; }
   button { transition: none; }
+}
+
+@media (pointer: fine) {
+  canvas { cursor: crosshair; }
 }

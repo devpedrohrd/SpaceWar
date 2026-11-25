@@ -21,7 +21,9 @@ O projeto possui três telas:
 - Dificuldade progressiva.
 - Explosões com partículas.
 - Fundo espacial com estrelas animadas.
-- Controles por teclado e toque.
+- Controles por teclado, mouse e toque.
+- Disparo automático opcional, ideal para celular.
+- Movimento da nave seguindo o mouse no computador.
 - Ranking local com as 10 melhores pontuações.
 - Opção para limpar o ranking.
 - Layout responsivo para computador e celular.
@@ -43,6 +45,15 @@ Use os três botões na parte inferior da tela:
 - `←` para mover para a esquerda.
 - `●` para atirar.
 - `→` para mover para a direita.
+
+### Mouse
+
+| Ação | Controle |
+|---|---|
+| Movimentar horizontalmente | Mover o cursor sobre o campo do jogo |
+| Atirar | Segurar o botão esquerdo do mouse |
+
+Na tela inicial, a opção **Disparo automático** pode ser ativada. Nesse modo, a nave continua atirando sem precisar pressionar Espaço, tocar no botão de tiro ou segurar o botão do mouse. A escolha é salva no navegador.
 
 ## Como executar
 

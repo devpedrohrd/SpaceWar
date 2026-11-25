@@ -16,8 +16,10 @@ const finalScore = document.getElementById("final-score");
 const playerNameInput = document.getElementById("player-name");
 const scoreForm = document.getElementById("score-form");
 const saveScoreButton = document.getElementById("save-score-button");
+const autoFireToggle = document.getElementById("auto-fire-toggle");
 
 const RANKING_KEY = "astroDefenderRanking";
+const AUTO_FIRE_KEY = "astroDefenderAutoFire";
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 
@@ -30,6 +32,12 @@ let lives = 3;
 let meteorTimer = 0;
 let shootCooldown = 0;
 let shake = 0;
+let autoFireEnabled = localStorage.getItem(AUTO_FIRE_KEY) === "true";
+let mouseFiring = false;
+let mouseTargetX = WIDTH / 2;
+let mouseActive = false;
+
+autoFireToggle.checked = autoFireEnabled;
 
 const keys = { left: false, right: false, fire: false };
 const player = { x: WIDTH / 2, y: HEIGHT - 70, width: 42, height: 58, speed: 300 };
@@ -120,6 +128,9 @@ function resetGame() {
   keys.left = false;
   keys.right = false;
   keys.fire = false;
+  mouseFiring = false;
+  mouseActive = false;
+  mouseTargetX = player.x;
   scoreSaved = false;
   saveScoreButton.disabled = false;
   saveScoreButton.textContent = "SALVAR";
@@ -224,10 +235,16 @@ function laserHitsMeteor(laser, meteor) {
 function update(delta) {
   if (keys.left) player.x -= player.speed * delta;
   if (keys.right) player.x += player.speed * delta;
+
+  if (!keys.left && !keys.right && mouseActive) {
+    const difference = mouseTargetX - player.x;
+    player.x += difference * Math.min(1, delta * 12);
+  }
+
   player.x = Math.max(player.width / 2, Math.min(WIDTH - player.width / 2, player.x));
 
   shootCooldown = Math.max(0, shootCooldown - delta);
-  if (keys.fire) fireLaser();
+  if (autoFireEnabled || keys.fire || mouseFiring) fireLaser();
 
   stars.forEach(star => {
     star.y += star.speed * delta;
@@ -457,6 +474,7 @@ function saveRanking(event) {
 
 function bindTouchButton(id, keyName, isFire = false) {
   const button = document.getElementById(id);
+  if (!button) return;
 
   const press = event => {
     event.preventDefault();
@@ -480,21 +498,44 @@ function bindTouchButton(id, keyName, isFire = false) {
   }
 }
 
-document.getElementById("play-button").addEventListener("click", startGame);
-document.getElementById("play-again-button").addEventListener("click", startGame);
-document.getElementById("clear-ranking-start").addEventListener("click", clearRanking);
-document.getElementById("clear-ranking-game").addEventListener("click", clearRanking);
-scoreForm.addEventListener("submit", saveRanking);
+autoFireToggle.addEventListener("change", () => {
+  autoFireEnabled = autoFireToggle.checked;
+  localStorage.setItem(AUTO_FIRE_KEY, String(autoFireEnabled));
+});
+
+canvas.addEventListener("mousemove", event => {
+  if (event.pointerType === "touch") return;
+
+  const rect = canvas.getBoundingClientRect();
+  mouseTargetX = ((event.clientX - rect.left) / rect.width) * WIDTH;
+  mouseTargetX = Math.max(player.width / 2, Math.min(WIDTH - player.width / 2, mouseTargetX));
+  mouseActive = true;
+});
+
+canvas.addEventListener("mouseleave", () => {
+  mouseActive = false;
+  mouseFiring = false;
+});
+
+canvas.addEventListener("mousedown", event => {
+  if (event.button !== 0 || event.pointerType === "touch") return;
+  event.preventDefault();
+  mouseFiring = true;
+  if (running) fireLaser();
+});
+
+window.addEventListener("mouseup", event => {
+  if (event.button === 0) mouseFiring = false;
+});
 
 window.addEventListener("keydown", event => {
   if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", " "].includes(event.key)) {
     event.preventDefault();
   }
+
   if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") keys.left = true;
   if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") keys.right = true;
-  if (event.code === "Space") {
-    if (!event.repeat) keys.fire = true;
-  }
+  if (event.code === "Space") keys.fire = true;
 });
 
 window.addEventListener("keyup", event => {
@@ -507,11 +548,19 @@ window.addEventListener("blur", () => {
   keys.left = false;
   keys.right = false;
   keys.fire = false;
+  mouseFiring = false;
+  mouseActive = false;
 });
+
+document.getElementById("play-button").addEventListener("click", startGame);
+document.getElementById("play-again-button").addEventListener("click", startGame);
+document.getElementById("clear-ranking-start").addEventListener("click", clearRanking);
+document.getElementById("clear-ranking-game").addEventListener("click", clearRanking);
+scoreForm.addEventListener("submit", saveRanking);
 
 bindTouchButton("move-left", "left");
 bindTouchButton("move-right", "right");
 bindTouchButton("fire-button", "fire", true);
 
 renderRanking();
-draw();
+showScreen("start");
